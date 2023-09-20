@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Visualizers</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/56f129bbdc.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <p id="title">
+            Sorting Visualizer
+        </p>
+        <div id="algorithms">
+            <p>Algorithms <i class="fa-solid fa-angle-down"></i></p>
+            <div id="list">
+                <button id="quick">Quick Sort</button>
+                <button id="merge">Merge Sort</button>
+                <button id="bubble">Bubble Sort</button>
+                <button id="insertion">Insertion Sort</button>
+                <button id="selection">Selection Sort</button>
+                <button id="heap">Heap Sort</button>
+            </div>
+        </div>
+        <div id="array-size">
+            <p>Array Size <i class="fa-solid fa-angle-down"></i></p>
+            <div class="container">
+                <input type="range" min="10" max="100" value="55" id="array-slider">
+            </div>
+        </div>
+        <div id="speed">
+            <p>Speed <i class="fa-solid fa-angle-down"></i></p>
+            <div class="container">
+                <input type="range" min="10" max="100" value="50" id="speed-slider">
+            </div>
+        </div>
+        <button id="sort-button">
+            Sort
+        </button>
+    </header>
+    <div id="main">
+        <canvas id="canvas"></canvas>
+    </div>
+    <script src="js/sorting.js"></script>
+    <script src="js/controls.js"></script>
+
+</body>
+
+</html>

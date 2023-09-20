@@ -1,0 +1,228 @@
+body{
+    width: 100vw;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    font-family: 'Ubuntu Mono', sans-serif;
+}
+
+html{
+    width: 100vw;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+header{
+    width: 100vw;
+    height: 100px;
+    background-color: #555;
+    color: #fff;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+header p{
+    font-size: 22px;
+}
+
+
+#title{
+    margin-left: 20px;
+    font-size: 28px;
+}
+
+#algorithms{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100px;
+    position: relative;
+    margin-left: 50px;
+}
+
+#algorithms p{
+    font-size: 22px;
+    cursor: pointer;
+    margin: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#algorithms p i{
+    transition: transform 0.5s;
+    margin-left: 10px;
+}
+
+#algorithms p:hover i{
+    transform: rotate(180deg);
+}
+
+#algorithms p:hover + #list{
+    display: flex;
+}
+
+#list{
+    width: 150%;
+    position: absolute;
+    top: 100%;
+    display: none;
+    background-color: #555;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#algorithms #list:hover{
+    display: flex;
+}
+
+#list button{
+    font-size: 18px;
+    width: 100%;
+    height: 50px;
+    color: #fff;
+    background-color: transparent;
+    text-align: left;
+    padding-left: 20px;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #999;
+    cursor: pointer;
+    outline: none;
+}
+
+#list button:hover{
+    background-color: #444;
+}
+
+#array-size{
+    height: 100px;
+    position: relative;
+    margin-left: 50px;
+    cursor: pointer;
+}
+
+#array-size .container{
+    display: none;
+    background-color: #555;
+    position: absolute;
+    top: 100%;
+    padding: 20px;
+
+}
+
+#array-size p{
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#array-size p i{
+    transition: transform 0.5s;
+    margin-left: 10px;
+}
+
+#array-size p:hover i{
+    transform: rotate(180deg);
+}
+
+#array-size p:hover + .container{
+    display: flex;
+}
+
+#array-size div:hover{
+    display: flex;
+}
+#array-slider{
+    color: #fff;
+    user-select: none;
+}
+
+
+
+#speed{
+    height: 100px;
+    position: relative;
+    margin-left: 50px;
+    cursor: pointer;
+}
+
+#speed .container{
+    display: none;
+    background-color: #555;
+    position: absolute;
+    top: 100%;
+    padding: 20px;
+
+}
+
+#speed p{
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#speed p i{
+    transition: transform 0.5s;
+    margin-left: 10px;
+}
+
+#speed p:hover i{
+    transform: rotate(180deg);
+}
+
+#speed p:hover + .container{
+    display: flex;
+}
+
+#speed div:hover{
+    display: flex;
+}
+#speed-slider{
+    color: #fff;
+    user-select: none;
+}
+
+#algorithms button.active{
+    color: #00bb00 !important;
+}
+
+#sort-button{
+    padding: 10px 20px;
+    background-color: #449900;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    color: #fff;
+    cursor: pointer;
+    margin-left: 50px;
+    border-radius: 5px;
+}
+
+#sort-button.active{
+    background-color: #bb4400 !important;
+}
+
+#main{
+    width:100%;
+    min-height: calc(100vh - 100px);
+    display: flex;
+    justify-content: center;
+    
+}
+
+.algo-bar{
+    background-color: red;
+    margin: 0 2px;
+}
