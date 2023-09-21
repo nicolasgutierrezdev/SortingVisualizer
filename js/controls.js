@@ -27,6 +27,9 @@ sortButton.addEventListener('click', () => {
     })
 
     sortButton.classList.add('active');
+    if (colors[0] === '#888') {
+        updateArray(arraySize)
+    }
     sort(array, speed)
 })
 
@@ -47,6 +50,8 @@ algorithmsButtons.forEach(button => {
         })
         button.classList.add('active');
         algorithm = button.id;
+        updateArray(arraySize)
     })
+
 })
 

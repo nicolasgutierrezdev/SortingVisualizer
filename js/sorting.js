@@ -3,6 +3,7 @@ let colors = [];
 
 
 const sort = async (array, speed) => {
+
     switch (algorithm) {
 
         case 'bubble':
@@ -18,8 +19,15 @@ const sort = async (array, speed) => {
             break;
 
         case 'merge':
-            const array_ = Array.from(array);
-            const pumba = await mergeSort(array_, 0, array_.length);
+            await mergeSort(array, 0, array.length);
+            break;
+
+        case 'quick':
+            await quickSort(array, 0, array.length - 1);
+            break;
+
+        case 'heap':
+            await heapSort(array);
             break;
 
     }
@@ -48,7 +56,7 @@ const draw = (array, colors_) => {
 
     for (let i = 0; i < array.length; i++) {
         ctx.fillStyle = colors_[i];
-        ctx.fillRect(i * width, 0, width - 2, array[i]);
+        ctx.fillRect(i * width, 250 - array[i] / 2, width - 2, array[i]);
     }
 }
 
@@ -65,6 +73,8 @@ const updateArray = (arraySize) => {
 const sleep = async (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+
 
 const bubbleSort = async (array, speed) => {
     for (let i = 0; i < array.length; i++) {
@@ -165,33 +175,219 @@ const mergeSort = async (array, start, end) => {
     if ((end - start) <= 1) return array.slice(start, end);
 
     const middle = Math.floor(start + (end - start) / 2);
-    const left = await mergeSort(array, start, middle);
-    const right = await mergeSort(array, middle, end);
-    console.log(left, right);
-    console.log(start, middle, middle, end);
+    await mergeSort(array, start, middle);
+    await mergeSort(array, middle, end);
 
-    const result = await merge(left, right);
+    await merge(array, start, middle, middle, end);
 
-    return result;
+
 }
 
-const merge = async (left, right) => {
+const merge = async (array, start1, end1, start2, end2) => {
+    let left = array.slice(start1, end1);
+    let right = array.slice(start2, end2);
     let result = [];
     let indexLeft = 0;
     let indexRight = 0;
 
+
     while (indexLeft < left.length && indexRight < right.length) {
+
         if (left[indexLeft] < right[indexRight]) {
-            result.push(left[indexLeft++]);
+            result.push({
+                value: left[indexLeft],
+                index: start1 + indexLeft,
+                branch: 'left'
+            });
+
+            indexLeft++
         } else {
-            result.push(right[indexRight++]);
+            result.push({
+                value: right[indexRight],
+                index: start2 + indexRight,
+                branch: 'right'
+            });
+
+            indexRight++
         }
+
     }
 
-    const leftArray = left.slice(indexLeft);
-    const rightArray = right.slice(indexRight);
+    while (indexLeft < left.length) {
+        result.push({
+            value: left[indexLeft],
+            index: start1 + indexLeft,
+            branch: 'left'
+        });
 
-    result = result.concat(leftArray).concat(rightArray);
+        indexLeft++
+    }
 
-    return result;
+    while (indexRight < right.length) {
+        result.push({
+            value: right[indexRight],
+            index: start2 + indexRight,
+            branch: 'right'
+        });
+
+        indexRight++
+    }
+
+    indexRight = 0;
+    let leftLength = left.length;
+
+    for (let i = start1; i < end2; i++) {
+        let temp = result[i - start1].value;
+
+        let tmpIndex = i + leftLength;
+        const tempColors = Array.from(colors);
+
+
+
+
+        if (i < result[i - start1].index) {
+            if (array[i] > array[tmpIndex]) {
+                tempColors[i] = '#FF5252';
+                tempColors[tmpIndex] = '#FF5252';
+            } else {
+                tempColors[i] = '#52FF52';
+                tempColors[tmpIndex] = '#52FF52';
+            }
+
+            await draw(array, tempColors);
+            await sleep(speed * 0.8);
+
+            array.splice(result[i - start1].index, 1);
+            array.splice(i, 0, temp);
+        }
+
+        if (result[i - start1].branch === 'left') {
+            leftLength--;
+        } else {
+            indexRight++;
+        }
+
+        if (i < result[i - start1].index) {
+            if (array[i] > array[tmpIndex]) {
+                tempColors[i] = '#FF5252';
+                tempColors[tmpIndex] = '#FF5252';
+            } else {
+                tempColors[i] = '#52FF52';
+                tempColors[tmpIndex] = '#52FF52';
+            }
+            await draw(array, tempColors);
+            await sleep(speed * 0.8);
+        }
+
+        if (start1 === 0 && end2 === array.length) colors[i] = '#888';
+
+    }
+
 }
+
+const quickSort = async (array, low, high) => {
+    if (low < high) {
+        const pivotIndex = await partition(array, low, high);
+
+        await quickSort(array, low, pivotIndex - 1);
+        await quickSort(array, pivotIndex + 1, high);
+    } {
+        colors[low] = '#888';
+        colors[high] = '#888';
+        await draw(array, colors);
+        await sleep(speed * 0.8);
+    }
+}
+
+const partition = async (array, low, high) => {
+    const pivot = array[high];
+    let i = low - 1;
+
+    for (let j = low; j < high; j++) {
+        if (array[j] < pivot) {
+            i++;
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+
+        const tempColors = Array.from(colors);
+
+        tempColors[i] = '#cc0';
+        tempColors[j] = '#cc0';
+        await draw(array, tempColors);
+        await sleep(speed * 0.3);
+    }
+
+
+    [array[i + 1], array[high]] = [array[high], array[i + 1]];
+
+    colors[i + 1] = '#888';
+    await draw(array, colors);
+    await sleep(speed * 0.8);
+
+
+    return i + 1;
+}
+
+const heapSort = async (array) => {
+    // Build a max-heap from the array
+    await buildMaxHeap(array);
+
+    // Extract elements from the max-heap one by one and place them at the end
+    for (let i = array.length - 1; i > 0; i--) {
+        // Swap the root (maximum element) with the last element
+        [array[0], array[i]] = [array[i], array[0]];
+
+        colors[i] = '#888';
+        await draw(array, colors);
+        await sleep(speed * 0.4);
+
+        // Call maxHeapify on the reduced heap
+        await maxHeapify(array, 0, i);
+    }
+    colors[0] = '#888';
+}
+
+const buildMaxHeap = async (array) => {
+    const n = array.length;
+
+    // Build a max-heap by starting from the last non-leaf node
+    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+        await maxHeapify(array, i, n);
+
+    }
+}
+
+const maxHeapify = async (array, i, n) => {
+    const left = 2 * i + 1;
+    const right = 2 * i + 2;
+    let largest = i;
+
+    if (left < n && array[left] > array[largest]) {
+        largest = left;
+    }
+
+    if (right < n && array[right] > array[largest]) {
+        largest = right;
+    }
+
+    if (largest !== i) {
+        // Swap arr[i] and arr[largest]
+        [array[i], array[largest]] = [array[largest], array[i]];
+        const tempColors = Array.from(colors);
+        tempColors[i] = '#ff5252';
+        tempColors[largest] = '#ff5252';
+        await draw(array, tempColors);
+        await sleep(speed * 0.4);
+
+
+        // Recursively heapify the affected sub-tree
+        await maxHeapify(array, largest, n);
+    } else {
+        const tempColors = Array.from(colors);
+        tempColors[i] = '#52ff52';
+        await draw(array, tempColors);
+        await sleep(speed * 0.4);
+    }
+}
+
+
